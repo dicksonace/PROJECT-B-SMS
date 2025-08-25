@@ -53,12 +53,12 @@
 ```
 
 
-### Load Message
+### 4. Load Message
 - `POST /api/messages/{id}` - Load Message
 
 
 
-### Webhook
+### 5. Webhook
 - `POST /api/webhooks/dir` - Process SMS
 
 -    ### Example Request header
