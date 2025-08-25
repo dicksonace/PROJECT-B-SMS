@@ -1,5 +1,5 @@
 
-# PROJECT A - ORDER-PAY-NOTIFY
+# PROJECT B - Messaging Rail (SMPP-style simulator)
 
 ## Setup Instructions
 
