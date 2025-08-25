@@ -1,61 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# PROJECT A - ORDER-PAY-NOTIFY
 
-## About Laravel
+## Setup Instructions
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### project Setup
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+3. run this:
+   ```bash
+   docker compose up --build
+   ```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- The backend will be available at `http://localhost:8000`
+- The frontend will be available at `http://localhost:5173`
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Project Structure
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `admin-ui/` - React frontend application
+- `backend_api/` - Laravel backend API
+  
 
-## Laravel Sponsors
+## steps
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Backend API (Laravel)
+- **Orders Management**: Create and view orders
+- **Payment Processing**: Charge payments with idempotency
+- **Product Management**: List products
+- **Dashboard Metrics**: Real-time statistics
+- **Webhook Support**: Handle payment webhooks
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+## API Endpoints
+The backend is configured to allow requests from:
+- `http://localhost:5173` (Vite dev server)
+- `http://localhost:3000` (Alternative React dev server)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+### products
+- `GET /api/products` - List all products (paginated)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### orders
+- `POST /api/orders` - Create new order
+  
+  ### Example Request Body
 
-## Security Vulnerabilities
+```json
+{
+  "items": [
+    { "product_id": 5, "quantity": 535 },
+    { "product_id": 4, "quantity": 515 }
+  ]
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Payments
+- `POST /api/payments/charge` - Charge a payment (requires Idempotency-Key)
+
+-   ### Example Request header
+
+  ```text
+    Idempotency-Key: charge:3
+      
+   ```
+
+  ### the number attached to charge:3 is the id of the order
+
+
+
+
+### Webhook
+- `POST /api/webhooks/momo` - Process payment
+
+-    ### Example Request header
+
+      ```text
+     header{
+        X-Signature: 7135a0d7ff10f393a00ca213b62719a0990722f892f89a09669e3ee14dd29e92,
+      }
+      
+      ```
+
+
+    ### Example Request Body
+
+```json
+{
+        "order_id": 3,
+        "amount": "142050.00",
+        "status": "initiated",
+        "idempotency_key": "charge:3",
+        "id": 1
+    }
+```
+
+### will get this playload after processing the payment 
+
+
+
+
+
+
+
