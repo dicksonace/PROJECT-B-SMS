@@ -19,10 +19,10 @@
 
 ## steps
 
-### Whitelist
+### 1. Whitelist
 - `GET /api/whitelists` - List all Whitelist (paginated)
 
-### Whitelist
+### 2. Add New Whitelist
 - `POST /api/whitelists` - Add New Whitelist
 
  ```json
@@ -32,8 +32,8 @@
 
 ``` 
 
-### Send SMS
-- `POST /api/messages` - Create new order
+### 3. Send new SMS
+- `POST /api/messages` - Create new SMS
 
     ```text
     Idempotency-Key: send_msg:8484fsfBBBHH
